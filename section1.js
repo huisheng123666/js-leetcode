@@ -745,3 +745,94 @@ var numSubarrayProductLessThanK = function(nums, k) {
   }
   return res
 };
+
+
+// 866
+var primePalindrome = function(N) {
+  function isPrinme(n) {
+    if(n === 0 || n === 1){
+      return false;
+    }
+    if(n === 2){
+      return true;
+    }
+    if (n % 2 === 0) return false
+    for(var i = 3;i <= Math.sqrt(n); i+=2){
+      if(n % i === 0){
+        return false;
+      }
+    }
+    return true;
+  }
+  function isBack(str) {
+    let back = str.split('').reverse().join('')
+    return str === back
+  }
+  while (N) {
+    if (N <= 11 && isPrinme(N)) return N
+    let str = N.toString()
+    if (str.length % 2 === 0) {
+      N = Math.pow(10, str.length)
+      continue
+    }
+    if (isBack(str) && isPrinme(N)) return N
+    N += 1
+  }
+}
+
+// 867
+var transpose = function(A) {
+  let res = []
+  for (let i = 0, len = A[0].length; i < len; i++) {
+    let tem = []
+    for (let j = 0, len2 = A.length; j < len2; j++) {
+      tem.push(A[j][i])
+    }
+    res.push(tem)
+  }
+  return res
+};
+
+// 868
+var binaryGap = function(N) {
+  let str = N.toString(2)
+  let start = str.indexOf('1')
+  if (start < 0) return 0
+  let res = 0
+  for (let i = start, len = str.length; i < len; i++) {
+    let index = str.indexOf('1', i + 1)
+    if (index > -1) {
+      let dis = index - i
+      if (dis > res) res = dis
+      i = index - 1
+    }
+  }
+  return res
+};
+
+// 869
+var reorderedPowerOf2 = function(N) {
+  let str = N.toString().split('').sort().join('')
+  let i = 0
+  let item = 0
+  while (item <= Math.pow(10, 9)) {
+    item = Math.pow(2, i)
+    if (item.toString().split('').sort().join('') === str) return true
+    i++
+  }
+  return false
+};
+
+// 872
+var leafSimilar = function(root1, root2) {
+  function push(root) {
+    let res = []
+    if (!root.left && !root.right) {
+      res.push(root.val)
+    }
+    if (root.left) res = [...res, ...push(root.left)]
+    if (root.right) res = [...res, ...push(root.right)]
+    return res
+  }
+  return push(root1).join('') === push(root2).join('')
+};
