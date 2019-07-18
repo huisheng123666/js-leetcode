@@ -711,7 +711,37 @@ var lengthOfLastWord = function (s) {
   return arr[arr.length - 1].length
 };
 
+// 709
+var toLowerCase = function(str) {
+  let tem = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+  let res = ''
+  for (let i = 0, len = str.length; i < len; i++) {
+    let code = str[i].charCodeAt()
+    if (code >= 65 && code <= 90 || code >= 97 && code <= 122) {
+      res += (tem[code - 97] || tem[code - 65])
+    } else {
+      res += str[i]
+    }
+  }
+  return res
+};
 
-var generateMatrix = function(n) {
-
+// 713
+var numSubarrayProductLessThanK = function(nums, k) {
+  if (k <= 1) return 0
+  let res = 0
+  let left = 0
+  let right = 0
+  let total = 1
+  let len = nums.length
+  while (right < len) {
+    total *= nums[right]
+    while (total >= k) {
+      total /= nums[left]
+      ++left
+    }
+    res += right - left + 1
+    right++
+  }
+  return res
 };
