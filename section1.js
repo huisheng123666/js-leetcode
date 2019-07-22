@@ -836,3 +836,77 @@ var leafSimilar = function(root1, root2) {
   }
   return push(root1).join('') === push(root2).join('')
 };
+
+// 198
+var rob = function(nums){
+  let total1 = 0
+  let total2 = 0
+  for (let i = 0, len = nums.length; i < len; i++) {
+    if (i % 2 === 0) {
+      total1 += nums[i]
+    } else total2 += nums[i]
+  }
+  return total2 > total1 ? total2 : total1
+};
+
+// 2 (数字过大溢出)
+var addTwoNumbers = function(l1, l2) {
+  let res = new ListNode(0)
+  let cur = res
+  while (l1 || l2) {
+    let num1 = l1 ? l1.val : 0
+    let num2 = l2 ? l2.val : 0
+    let total = num1 + num2 + (cur.next ? cur.next.val : 0)
+    if (total >= 10) {
+      cur.next = new ListNode(total - 10)
+      cur.next.next = new ListNode(1)
+    } else {
+      cur.next = new ListNode(total)
+    }
+    cur = cur.next
+    l1 = l1 ? l1.next : null
+    l2 = l2 ? l2.next : null
+  }
+  return res.next
+};
+
+// 3
+var lengthOfLongestSubstring = function(s) {
+  // 遍历去重消耗时间
+  let left = 0
+  let res = 0
+  s = s.split('').map(item => item.charCodeAt())
+  for (let i = 1, len = s.length; i <= len; i++) {
+    let arr = s.slice(left, i)
+    let set = new Set(arr)
+    if (arr.length === set.size) {
+      if (res < set.size) res = set.size
+    } else {
+      while (arr.length !== set.size && left < i) {
+        left++
+        arr = s.slice(left, i)
+        set = new Set(arr)
+      }
+    }
+  }
+  return res
+};
+var lengthOfLongestSubstring = function(s) {
+  let left = 0
+  let res = ''
+  let result = 0
+  for (let i = 1, len = s.length; i <= len; i++) {
+    res = s.slice(left, i)
+    let item = s[i - 1]
+    let index = res.indexOf(item)
+    if (index !== i - left - 1) {
+      while (index !== i - left - 1 && left < i) {
+        ++left
+        res = s.slice(left, i)
+        index = res.indexOf(item)
+      }
+    }
+    if (res.length > result) result = res.length
+  }
+  return result
+};
