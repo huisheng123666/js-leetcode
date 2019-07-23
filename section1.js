@@ -910,3 +910,45 @@ var lengthOfLongestSubstring = function(s) {
   }
   return result
 };
+
+// 57
+var insert = function(intervals, newInterval) {
+  if (!newInterval.length) return intervals
+  let res = []
+  let flag = null
+  for (let i = 0, len = intervals.length; i < len; i++) {
+    let tem = intervals[i]
+    if (tem[1] < newInterval[0]) {
+      res.push(tem)
+    } else if (tem[0] > newInterval[1]) {
+      if (!flag) {
+        flag = true
+        res.push(newInterval)
+      }
+      res.push(tem)
+    } else {
+      if (tem[0] < newInterval[0]) {
+        newInterval[0] = tem[0]
+      }
+      if (tem[1] > newInterval[1]) {
+        newInterval[1] = tem[1]
+      }
+    }
+  }
+
+  if (!flag) res.push(newInterval)
+
+  return res
+};
+
+
+// 41
+var firstMissingPositive = function(nums) {
+  if (!nums.length) return 1
+  for (let i = 1, len = nums.length + 1; i < len; i++) {
+    if (nums.indexOf(i) < 0) {
+      return i
+    }
+  }
+  return Math.max.apply(null, nums) + 1
+};
